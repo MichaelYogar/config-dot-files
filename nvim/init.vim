@@ -1,6 +1,6 @@
 set nocompatible
 filetype off " required
-
+            
 " Specify a directory for plugins
 " - For Neovim: stdpath('data') . '/plugged'
 " - Avoid using standard Vim directory names like 'plugin'
@@ -14,6 +14,8 @@ Plug 'ryanoasis/vim-devicons'
 " search files with Ctrl-p 
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'itchyny/lightline.vim'
+
 " Initialize plugin system
 call plug#end()
 
@@ -22,20 +24,29 @@ filetype plugin indent on " required
 syntax on set number
 set relativenumber
 set incsearch
-set ignorecase
+" When 'ignorecase' and 'smartcase' are both on, if a pattern contains an uppercase letter, it is case sensitive, otherwise, it is not. For example, /The would find only "The", while /the would find "the" or "The" etc.
+set ignorecase "searches will be case-insensitive
 set smartcase
-set nohlsearch
-set tabstop=4
-set softtabstop=0
-set shiftwidth=4
-set expandtab
+set nohlsearch " makes it so all of the words aren't highlighted, able to focus on one at a time
 set nobackup
 set noswapfile
 set nowrap
+set expandtab " Insert spaces instead of tabs
+set smarttab " forces use of shiftwidth and tabstop
+set shiftwidth=4 " Change the number of spaces inserted for indentation
+set tabstop=4 " Tabs insert 4 space
+set softtabstop=4
+set laststatus=2
+    
+
     
 " Theme 
 " so I dont have to type :colorscheme gruvbox command
 colorscheme gruvbox
+let g:lightline = {
+      \ 'colorscheme': 'solarized',
+      \ }
+
 
 
 " Preferences
