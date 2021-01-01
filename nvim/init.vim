@@ -15,6 +15,8 @@ Plug 'ryanoasis/vim-devicons'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'itchyny/lightline.vim'
+" allow you to move between Vim panes and kitty splits seamlessly.
+Plug 'knubie/vim-kitty-navigator'
 
 " Initialize plugin system
 call plug#end()
@@ -38,8 +40,6 @@ set tabstop=4 " Tabs insert 4 space
 set softtabstop=4
 set laststatus=2
     
-
-    
 " Theme 
 " so I dont have to type :colorscheme gruvbox command
 colorscheme gruvbox
@@ -47,14 +47,17 @@ let g:lightline = {
       \ 'colorscheme': 'solarized',
       \ }
 
-
-
 " Preferences
 " To map keys that work only in the insert and replace modes, use the 'imap' or 'inoremap' command.
+let mapleader = ","
 inoremap jk <ESC>
+" cursor to end of linse
+noremap Y y$
+noremap D d$
+" swap two lines start at the lower one
+noremap <leader>s VdkP
 let mapleader = "\<Space>"
 " This allows for automatic paste mode
-" Start
 let &t_SI .= "\<Esc>[?2004h"
 let &t_EI .= "\<Esc>[?2004l"
 inoremap <special> <expr> <Esc>[200~ XTermPasteBegin()
@@ -63,14 +66,21 @@ function! XTermPasteBegin()
   set paste
   return ""
 endfunction
-" end
 
-" NERDTree 
-" any time you type Ctrl-n, :NERDTreeFocus is used - q to close out of it
-map <silent> <C-n> :NERDTreeFocus <CR>
+" NERDTree Settings 
+nmap <C-t> :NERDTreeToggle <CR>
 let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__', 'node_modules']
+" open NerdTree Auto
+autocmd VimEnter * NERDTree
 " Automaticaly close nvim if NERDTree is only thing left open
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+" Kitty Nav
+let g:kitty_navigator_no_mappings = 1
+nnoremap <silent> <Tab><Left> :KittyNavigateLeft<cr>
+nnoremap <silent> <Tab><Down> :KittyNavigateDown<cr>
+nnoremap <silent> <Tab><Up> :KittyNavigateUp<cr>
+nnoremap <silent> <Tab><Right> :KittyNavigateRight<cr>
 
 " config for coc
 source $HOME/.config/nvim/plug-config/coc.vim
