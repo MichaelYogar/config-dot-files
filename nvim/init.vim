@@ -6,17 +6,16 @@ filetype off " required
 " - Avoid using standard Vim directory names like 'plugin'
 call plug#begin('~/.config/nvim/plugged')
 Plug 'morhetz/gruvbox'
-" for git
 Plug 'tpope/vim-fugitive'
-" file explore
 Plug 'preservim/nerdtree'
 Plug 'ryanoasis/vim-devicons'
-" search files with Ctrl-p 
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'itchyny/lightline.vim'
-" allow you to move between Vim panes and kitty splits seamlessly.
 Plug 'knubie/vim-kitty-navigator'
+
+"Javascript
+Plug 'pangloss/vim-javascript'
 
 " Initialize plugin system
 call plug#end()
@@ -48,7 +47,6 @@ let g:lightline = {
       \ }
 
 " Preferences
-" To map keys that work only in the insert and replace modes, use the 'imap' or 'inoremap' command.
 let mapleader = ","
 inoremap jk <ESC>
 " cursor to end of linse
@@ -67,6 +65,13 @@ function! XTermPasteBegin()
   return ""
 endfunction
 
+" kitty nav inside vim panels only
+let g:kitty_navigator_no_mappings = 1
+nnoremap <silent> <Tab><Left> :KittyNavigateLeft<cr>
+nnoremap <silent> <Tab><Down> :KittyNavigateDown<cr>
+nnoremap <silent> <Tab><Up> :KittyNavigateUp<cr>
+nnoremap <silent> <Tab><Right> :KittyNavigateRight<cr>
+
 " NERDTree Settings 
 nmap <C-t> :NERDTreeToggle <CR>
 let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__', 'node_modules']
@@ -74,13 +79,6 @@ let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycach
 autocmd VimEnter * NERDTree
 " Automaticaly close nvim if NERDTree is only thing left open
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-
-" Kitty Nav
-let g:kitty_navigator_no_mappings = 1
-nnoremap <silent> <Tab><Left> :KittyNavigateLeft<cr>
-nnoremap <silent> <Tab><Down> :KittyNavigateDown<cr>
-nnoremap <silent> <Tab><Up> :KittyNavigateUp<cr>
-nnoremap <silent> <Tab><Right> :KittyNavigateRight<cr>
 
 " config for coc
 source $HOME/.config/nvim/plug-config/coc.vim
