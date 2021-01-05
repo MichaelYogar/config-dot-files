@@ -9,10 +9,15 @@ Plug 'morhetz/gruvbox'
 Plug 'tpope/vim-fugitive'
 Plug 'preservim/nerdtree'
 Plug 'ryanoasis/vim-devicons'
-Plug 'ctrlpvim/ctrlp.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'itchyny/lightline.vim'
 Plug 'knubie/vim-kitty-navigator'
+"Searching
+Plug 'mileszs/ack.vim' " searching for a pattern in a specified directory
+Plug 'dyng/ctrlsf.vim' " go to a word and search for it in working directory
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 
 "Javascript
 Plug 'pangloss/vim-javascript'
@@ -48,13 +53,16 @@ let g:lightline = {
 
 " Preferences
 let mapleader = ","
+noremap <leader>r G
 inoremap jk <ESC>
 " cursor to end of linse
 noremap Y y$
 noremap D d$
 " swap two lines start at the lower one
 noremap <leader>s VdkP
-let mapleader = "\<Space>"
+" Edit init.vim
+nnoremap <Leader>ev :e ~/.config/nvim/init.vim<CR>
+
 " This allows for automatic paste mode
 let &t_SI .= "\<Esc>[?2004h"
 let &t_EI .= "\<Esc>[?2004l"
@@ -73,14 +81,23 @@ nnoremap <silent> <Tab><Up> :KittyNavigateUp<cr>
 nnoremap <silent> <Tab><Right> :KittyNavigateRight<cr>
 
 " NERDTree Settings 
-nmap <C-t> :NERDTreeToggle <CR>
+nmap <C-t> :NERDTreeFocus <CR>
 let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__', 'node_modules']
 " open NerdTree Auto
-autocmd VimEnter * NERDTree
+" autocmd VimEnter * NERDTree
 " Automaticaly close nvim if NERDTree is only thing left open
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 " config for coc
 source $HOME/.config/nvim/plug-config/coc.vim
+
+" ack
+if executable('ag')
+  let g:ackprg = 'ag --vimgrep'
+endif
+
+" searches working directory
+let g:ctrlsf_ignore_dir = ["node_modules"]
+nnoremap <leader>f :CtrlSF<Space>
 
 
